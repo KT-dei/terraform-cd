@@ -1,2 +1,1 @@
-# terraform-cd
-terraform-cd
+# terraform-labs

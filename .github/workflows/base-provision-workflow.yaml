@@ -1,0 +1,56 @@
+name: Terraform Azure Infrastructure Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_mode:
+        description: 'Terraform mode (init, validate, plan, apply, destroy)'
+        required: true
+        default: 'plan'
+      require_approval:
+        description: 'Require manual approval before applying? (true/false)'
+        required: true
+        default: 'false'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-run:
+    name: Terraform ${{ github.event.inputs.terraform_mode }}
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.7.x'
+
+      - name: Request Approval
+        if: ${{ github.event.inputs.require_approval == 'true' && github.event.inputs.terraform_mode == 'apply' }}
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terraform ${{ github.event.inputs.terraform_mode }}
+        run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve
+
+      - name: Terraform Logout from Azure
+        run: az logout
+        
