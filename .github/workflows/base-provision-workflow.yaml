@@ -49,7 +49,17 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform ${{ github.event.inputs.terraform_mode }}
-        run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve
+        run: |
+          if [[ "${{ github.event.inputs.terraform_mode }}" == "apply" || "${{ github.event.inputs.terraform_mode }}" == "destroy" ]]; then
+            if [[ "${{ github.event.inputs.require_approval }}" == "true" ]]; then
+              terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve
+            else
+              echo "Error: Approval is required for apply or destroy actions."
+              exit 1
+            fi
+          else
+            terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }}
+          fi
 
       - name: Terraform Logout from Azure
         run: az logout
