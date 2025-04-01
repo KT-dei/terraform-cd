@@ -7,4 +7,5 @@ module "cosmosdb-mongo" {
 
   mongo_database_name     = var.mongo_database_name
   database_throughput    = var.database_throughput
+  #depends_on = [module.k8s_rg]
 }

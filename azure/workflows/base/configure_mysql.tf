@@ -12,6 +12,7 @@ module "mysql" {
   mysql_version     = var.mysql_version
   database_name     = var.database_name
   sku_name          = var.sku_name
+  #depends_on = [module.k8s_rg]
 }
 
 output "mysql_fqdn" {

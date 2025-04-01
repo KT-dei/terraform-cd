@@ -87,7 +87,8 @@ resource "kubernetes_storage_class" "ra-azurefile" {
 resource "kubernetes_secret" "docker_container_secret" {
   metadata {
     name      = var.docker_container_secret_name
-    namespace = var.docker_container_secret_namespace
+    #namespace = var.docker_container_secret_namespace
+    namespace = kubernetes_namespace.namespaces_with_istio_inject[0].metadata[0].name
   }
   
   data = {

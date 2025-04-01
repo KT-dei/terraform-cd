@@ -10,6 +10,7 @@ module "redis_cache" {
   capacity = var.capacity
   enable_non_ssl_port = var.enable_non_ssl_port
   minimum_tls_version = var.minimum_tls_version
+  #depends_on = [module.k8s_rg]
 }
 
 output "redis_hostname" {

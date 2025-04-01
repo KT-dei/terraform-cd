@@ -20,6 +20,7 @@ resource "azurerm_mysql_flexible_server" "mysql_server" {
   administrator_password = var.admin_password
   sku_name               = var.sku_name
   version                 = var.mysql_version
+  zone = "1"
   storage {
     size_gb = 20
   }
