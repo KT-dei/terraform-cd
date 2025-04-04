@@ -52,15 +52,15 @@ resource "kubernetes_namespace" "namespaces_without_istio_inject" {
   }
 }
 
-resource "azurerm_role_assignment" "attach_acr" {
-  depends_on = [module.k8s, module.common_acr]
+#resource "azurerm_role_assignment" "attach_acr" {
+ # depends_on = [module.k8s, module.common_acr]
   # principal needs to be kubelet identity - 
   #  see https://stackoverflow.com/questions/59978060/how-to-give-permissions-to-aks-to-access-acr-via-terraform
-  principal_id                     = module.k8s.aks_kubelet_identity
-  role_definition_name             = "AcrPull"
-  scope                            = module.common_acr.id
-  skip_service_principal_aad_check = true
-}
+ # principal_id                     = module.k8s.aks_kubelet_identity
+ # role_definition_name             = "AcrPull"
+ # scope                            = module.common_acr.id
+ # skip_service_principal_aad_check = true
+#}
 
 resource "kubernetes_storage_class" "ra-azurefile" {
   metadata {
