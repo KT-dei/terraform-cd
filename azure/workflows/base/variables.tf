@@ -4,7 +4,7 @@ variable "location" {
 }
 
 variable "env_prefix" {
-    default = "labenv"
+    default = "labenv-ivan"
 }
 
 variable "acr_sku" {
