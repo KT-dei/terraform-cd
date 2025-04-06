@@ -1,10 +1,12 @@
+variable "azure_subscription_id_global" {}
+
 variable "location" {
     default     = "centralus"
     description = "Location of the resource group."
 }
 
 variable "env_prefix" {
-    default = "labenv-ivan"
+    default = "labenv"
 }
 
 variable "acr_sku" {
