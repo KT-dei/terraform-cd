@@ -53,7 +53,7 @@ jobs:
 
 
       - name: Terraform Validate
-        run: terraform -chdir=azure/workflows/base validate -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+        run: terraform -chdir=azure/workflows/base validate 
 
       - name: Request Approval
         if: ${{ github.event.inputs.require_approval == 'true' && github.event.inputs.terraform_mode == 'apply' }}

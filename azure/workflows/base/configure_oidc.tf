@@ -13,7 +13,7 @@ module "github-oidc-uami" {
   scope               = "/subscriptions/${var.azure_subscription_id_global}"
   role_definition_name = "Managed Identity Operator"
   subject             = "repo:${var.github_repo}:ref:refs/heads/${var.branch}"
-  storage_account_blob_scope = "/subscriptions/${var.azure_subscription_id_global}/resourceGroups/${var.tfstate_rg}/providers/Microsoft.Storage/storageAccounts/${var.tfstate_storage_account_name}/blobServices/default/containers/${var.tfstate_container_name}"
+  storage_account_blob_scope = "/subscriptions/${var.azure_subscription_id_global}/resourceGroups/${var.tfstate_rg}/providers/Microsoft.Storage/storageAccounts/${var.tfstate_storage_account_name}"
   resource_group_scope = "/subscriptions/${var.azure_subscription_id_global}/resourceGroups/${var.tfstate_rg}"
   
 }

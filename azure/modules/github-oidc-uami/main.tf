@@ -27,6 +27,11 @@ resource "azurerm_role_assignment" "blob_data_contributor" {
   scope                = var.storage_account_blob_scope
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_user_assigned_identity.this.principal_id
+
+  lifecycle {
+    ignore_changes   = all
+    prevent_destroy  = true
+  }
 }
 
 resource "azurerm_role_assignment" "rg_reader" {
@@ -34,4 +39,9 @@ resource "azurerm_role_assignment" "rg_reader" {
   scope                = var.resource_group_scope
   role_definition_name = "Reader"
   principal_id         = azurerm_user_assigned_identity.this.principal_id
+
+  lifecycle {
+    ignore_changes   = all
+    prevent_destroy  = true
+  }
 }
