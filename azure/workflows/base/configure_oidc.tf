@@ -10,8 +10,10 @@ module "github-oidc-uami" {
   resource_group_name = local.rg_k8s
   github_repo         = var.github_repo
   branch              = var.branch
-  scope               = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
+  scope               = "/subscriptions/${var.azure_subscription_id_global}"
   role_definition_name = "Managed Identity Operator"
   subject             = "repo:${var.github_repo}:ref:refs/heads/${var.branch}"
+  storage_account_blob_scope = "/subscriptions/${var.azure_subscription_id_global}/resourceGroups/${var.tfstate_rg}/providers/Microsoft.Storage/storageAccounts/${var.tfstate_storage_account_name}/blobServices/default/containers/${var.tfstate_container_name}"
+  resource_group_scope = "/subscriptions/${var.azure_subscription_id_global}/resourceGroups/${var.tfstate_rg}"
   
 }
