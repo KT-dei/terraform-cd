@@ -1,10 +1,12 @@
+variable "azure_subscription_id_global" {}
+
 variable "location" {
     default     = "centralus"
     description = "Location of the resource group."
 }
 
 variable "env_prefix" {
-    default = "labenv-ivan"
+    default = "labenv"
 }
 
 variable "acr_sku" {
@@ -177,4 +179,26 @@ variable "base_infra_namespace_with_istio_inject" {
 variable "base_infra_namespace_without_istio_inject" {
   type    = list(string)
   default = ["istio-system", "cert-manager"]
+}
+
+variable "tfstate_rg" {
+  default = "terraform-rg"
+  type    = string
+  description = "The name of the resource group where the Terraform state file is stored."
+  
+}
+variable "tfstate_storage_account_name" {
+  default = "tfstate26035"
+  type    = string
+  description = "The name of the storage account where the Terraform state file is stored."
+}
+variable "tfstate_container_name" {
+  default = "tfstate"
+  type    = string
+  description = "The name of the container where the Terraform state file is stored."
+}
+variable "tfstate_key" {
+  default = "terraform.tfstate"
+  type    = string
+  description = "The name of the key for the Terraform state file."
 }

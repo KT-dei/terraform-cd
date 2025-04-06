@@ -8,16 +8,8 @@ output "mongo_database_name" {
   value       = azurerm_cosmosdb_mongo_database.mongo_database.name
 }
 
-output "primary_connection_string" {
-  description = "Primary MongoDB connection string."
-  value       = azurerm_cosmosdb_account.mongo_cosmosdb.connection_strings[0]
-  sensitive   = true
-}
-output "secondary_connection_string" {
-  description = "Secondary MongoDB connection string."
-  value       = azurerm_cosmosdb_account.mongo_cosmosdb.connection_strings[1]
-  sensitive   = true
-}
+
+
 output "mongo_database_id" {
   description = "ID of the created MongoDB database."
   value       = azurerm_cosmosdb_mongo_database.mongo_database.id

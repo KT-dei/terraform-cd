@@ -16,7 +16,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     zones               = var.node_pool_availability_zone
     max_count           = var.node_pool_max_count #3
     min_count           = var.node_pool_min_count #1
-    enable_auto_scaling = true
+    auto_scaling_enabled = true
     #vnet_subnet_id      = azurerm_subnet.aks_subnet.id
     max_pods            = var.max_pods
     tags                = var.tags
@@ -75,7 +75,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "linux_wks_node_pool" {
   zones                 = var.node_pool_availability_zone
   max_count             = var.node_pool_max_count #3
   min_count             = var.node_pool_min_count #1
-  enable_auto_scaling   = true
+  auto_scaling_enabled   = true
   #vnet_subnet_id        = azurerm_subnet.aks_subnet.id
   max_pods              = var.max_pods_wks
   tags                  = var.tags
@@ -105,7 +105,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "windows_node_pool" {
   zones                 = var.node_pool_availability_zone
   max_count             = var.node_pool_max_count #3
   min_count             = var.node_pool_min_count #1
-  enable_auto_scaling   = true
+  auto_scaling_enabled   = true
   
   #vnet_subnet_id        = azurerm_subnet.aks_subnet.id
   max_pods              = var.max_pods_win #
