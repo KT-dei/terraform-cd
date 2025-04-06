@@ -43,14 +43,14 @@ jobs:
           terraform_version: '1.7.x'
     
       - name: Terraform Init
-        run: terraform -chdir=azure/workflows/base init
+        run: terraform -chdir=azure/workflows/base init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ vars.TF_STATE_NAME }}" -no-color
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Terraform Validate
-        run: terraform -chdir=azure/workflows/base validate
+        run: terraform -chdir=azure/workflows/base validate -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -63,7 +63,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform ${{ github.event.inputs.terraform_mode }}
-        run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve
+        run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
 
       - name: Terraform Logout from Azure
         run: az logout
