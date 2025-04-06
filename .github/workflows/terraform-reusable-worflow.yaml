@@ -1,0 +1,44 @@
+name: Terraform Reusable Workflow
+
+on:
+    workflow_call:
+        inputs:
+            terraform_version:
+                description: 'Terraform version to use'
+                required: true
+                type: string
+            working_directory:
+                description: 'Directory containing Terraform configuration'
+                required: true
+                type: string
+            tf_action:
+                description: 'Terraform action to perform (e.g., plan, apply, destroy)'
+                required: true
+                type: string
+        secrets:
+            tf_cloud_token:
+                description: 'Terraform Cloud API Token'
+                required: true
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+                uses: actions/checkout@v3
+
+            - name: Setup Terraform
+                uses: hashicorp/setup-terraform@v2
+                with:
+                    terraform_version: ${{ inputs.terraform_version }}
+
+            - name: Initialize Terraform
+                run: terraform init
+                working-directory: ${{ inputs.working_directory }}
+
+            - name: Terraform ${{ inputs.tf_action }}
+                run: terraform ${{ inputs.tf_action }} -auto-approve
+                working-directory: ${{ inputs.working_directory }}
+                env:
+                    TF_CLOUD_TOKEN: ${{ secrets.tf_cloud_token }}
