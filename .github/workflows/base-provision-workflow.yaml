@@ -61,8 +61,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Terraform Plan
+        if: ${{ github.event.inputs.terraform_mode == 'plan' }}
+        run: terraform -chdir=azure/workflows/base plan -out=tfplan -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
+
       - name: Terraform ${{ github.event.inputs.terraform_mode }}
+        if: ${{ github.event.inputs.terraform_mode == 'apply' || github.event.inputs.terraform_mode == 'destroy' }}
         run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
 
       - name: Terraform Logout from Azure
         run: az logout
