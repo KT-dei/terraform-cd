@@ -24,16 +24,11 @@ on:
         default: false
 
 env:
-  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-  #ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
-  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
-  ARM_SUBSCRIPTION_ID: "${{ vars.AZURE_SUBSCRIPTION_ID }}"
   DEFAULT_ENVIRONMENT: "${{ vars.DEFAULT_ENVIRONMENT }}"
   TERRAFORM_LOCK_TIMEOUT: ${{ vars.TERRAFORM_LOCK_TIMEOUT || '20m' }}
   working-directory: "${{ inputs.workflow }}"
   TERRAFORM_VERSION: "1.7.3"
   TERRAFORM_WRAPPER: false
-  ARM_USE_OIDC: true
 
 jobs:
   Terraform-Plan:
