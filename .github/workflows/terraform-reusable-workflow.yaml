@@ -23,9 +23,6 @@ on:
         description: 'Publish plan to PR'
         default: false
 
-permissions:
-  id-token: write
-  contents: read
 
 env:
   DEFAULT_ENVIRONMENT: "${{ vars.DEFAULT_ENVIRONMENT }}"
