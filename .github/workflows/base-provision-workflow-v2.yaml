@@ -1,0 +1,85 @@
+name: base-provision-workflow-v2
+run-name: (${{ github.actor }}${{ format('{0}{1}', inputs.remote_source && '-' || '', inputs.remote_source && inputs.remote_source || '' ) }}-${{ inputs.environment }}-${{ inputs.mode }}-${{ inputs.tenant }}-${{ inputs.cluster_index }}) Base Infrastructure Provision via Terraform
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        type: environment
+        required: true
+      mode:
+        type: choice
+        required: true
+        description: 'Terraform Mode'
+        options:
+          - validate
+          - plan
+          - apply
+          - destroy
+          - plan-destroy
+      remote_source:
+        description: 'Remote source'
+        type: string
+        required: false
+
+
+permissions: 
+  contents: write
+  pull-requests: write
+  packages: read
+
+env:
+  TERRAFORM_AUTO_TFVARS_FILENAME: "base-infrastructure.auto.tfvars"
+  WORKING_DIRECTORY: "./azure/workflows/base"
+jobs:
+  setup-base-infrastructure:
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'ftdslabs' }}
+    runs-on: ubuntu-latest
+    name: "Base Infrastructure Terraform Variables"
+    outputs:
+      environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'ftdslabs' }}
+      working-directory: ${{ env.WORKING_DIRECTORY }}
+      tf-state-name: ${{ format('{0}-base-infrastructure.tfstate', vars.ENV_PREFIX) }}
+      mode:  ${{ inputs.mode }}
+      vars-file: ${{ steps.vars.outputs.vars_file }}
+    steps:
+
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "SetUp Base Infrastructure Terraform Variables"
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        id: vars
+        run: |
+          delimiter="$(openssl rand -hex 8)"
+          echo "vars_file<<${delimiter}" >> "${GITHUB_OUTPUT}"
+
+          # Add some variables here
+          # It's necessary to use "***" so that it can be later replaced by a double quote in the terraform reusable workflow
+          # some_other_var = ***${{vars.SOME_OTHER_VAR}}***">> "${GITHUB_OUTPUT}"
+
+          
+          echo "tfstate_storage_account_name = ***${{ vars.TF_STATE_SA }}***" >> "${GITHUB_OUTPUT}"
+          echo "tfstate_container_name = ***${{ vars.TF_STATE_CONTAINER }}***" >> "${GITHUB_OUTPUT}"
+          echo "tfstate_resource_group_name = ***${{ vars.TF_STATE_RG }}***" >> "${GITHUB_OUTPUT}"
+          echo "tfstate_name = ***${{ format('{0}-base-infrastructure.tfstate', vars.ENV_PREFIX) }}***" >> "${GITHUB_OUTPUT}"
+          echo "tfstate_subscription_id = ***${{ vars.TF_STATE_SUB }}***" >> "${GITHUB_OUTPUT}"
+          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+    
+
+  base-infrastructure:
+    needs: [setup-base-infrastructure]
+    uses: ./.github/workflows/terraform-reusable-workflow.yaml
+    name: "Base Infrastructure Terraform"
+    with: 
+      workflow: ${{ needs.setup-base-infrastructure.outputs.working-directory }}
+      mode: ${{ needs.setup-base-infrastructure.outputs.mode }}
+      vars-file: ${{ needs.setup-base-infrastructure.outputs.vars-file }}
+      tf-state-name: ${{ needs.setup-base-infrastructure.outputs.tf-state-name }}
+      environment: ${{ needs.setup-base-infrastructure.outputs.environment }}
+      publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
+
+
+
+           
+        
