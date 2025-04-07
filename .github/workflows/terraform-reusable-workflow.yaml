@@ -100,7 +100,7 @@ jobs:
 
       - name: Terraform Init
         run: | 
-          terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ vars.TF_STATE_NAME }}" -backend-config="use_azuread_auth=true" -no-color
+          terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ inputs.tf-state-name }}" -backend-config="use_azuread_auth=true" -no-color
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
