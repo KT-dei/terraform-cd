@@ -264,6 +264,17 @@ jobs:
               "tenantId":  "${{ secrets.AZURE_TENANT_ID }}",
               "clientId":  "${{ secrets.AZURE_CLIENT_ID }}"
             }
+      
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
+        env:
+          ARM_USE_OIDC: true
+    
 
       - name: Terraform Init
         run: | 
