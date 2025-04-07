@@ -132,6 +132,12 @@ jobs:
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
           # TODO: Check with the working directory
           echo "workflow=$(basename ${{ env.working-directory }})" >> $GITHUB_OUTPUT
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
+          
         continue-on-error: true
         shell: bash
         working-directory: ${{ env.working-directory }}
