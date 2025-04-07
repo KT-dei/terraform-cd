@@ -25,7 +25,6 @@ on:
 
 
 env:
-  DEFAULT_ENVIRONMENT: "${{ vars.DEFAULT_ENVIRONMENT }}"
   TERRAFORM_LOCK_TIMEOUT: ${{ vars.TERRAFORM_LOCK_TIMEOUT || '20m' }}
   working-directory: "${{ inputs.workflow }}"
   TERRAFORM_VERSION: "1.7.3"
