@@ -23,6 +23,10 @@ on:
         description: 'Publish plan to PR'
         default: false
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   DEFAULT_ENVIRONMENT: "${{ vars.DEFAULT_ENVIRONMENT }}"
   TERRAFORM_LOCK_TIMEOUT: ${{ vars.TERRAFORM_LOCK_TIMEOUT || '20m' }}
@@ -59,12 +63,16 @@ jobs:
 
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
-      #- name: Azure Login
-       # uses: azure/login@v2
-       # with:
-        #  client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        #  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        #  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
+        env:
+          ARM_USE_OIDC: true
+
 
       - name: Setup Terraform variables
         working-directory: ${{ env.working-directory }}
