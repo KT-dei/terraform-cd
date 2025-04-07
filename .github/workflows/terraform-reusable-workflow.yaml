@@ -124,9 +124,9 @@ jobs:
           set -o pipefail
           export exitcode=0
           if [ ${{ inputs.mode }} == 'apply' ] || [ ${{ inputs.mode }} == 'plan' ]; then
-            terraform plan -lock-timeout=${{ env.TERRAFORM_LOCK_TIMEOUT }} -input=false -no-color -detailed-exitcode -out tfplan | tee terraform-plan.txt; export exitcode=$?
+            terraform plan -lock-timeout=${{ env.TERRAFORM_LOCK_TIMEOUT }} -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}} -input=false -no-color -detailed-exitcode -out tfplan | tee terraform-plan.txt; export exitcode=$?
           else
-            terraform plan -lock-timeout=${{ env.TERRAFORM_LOCK_TIMEOUT }} -input=false -destroy -no-color -detailed-exitcode -out tfplan | tee terraform-plan.txt; export exitcode=$?
+            terraform plan -lock-timeout=${{ env.TERRAFORM_LOCK_TIMEOUT }} -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}} -input=false -destroy -no-color -detailed-exitcode -out tfplan | tee terraform-plan.txt; export exitcode=$?
           fi
           echo "exitcode=$exitcode"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
