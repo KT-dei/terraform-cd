@@ -6,7 +6,7 @@ module "common_acr" {
   env_prefix                 = var.env_prefix
   env_name                   = var.env_name
   acr_admin_enabled          = var.acr_admin_enabled
-  acr_name                   = "${var.acrprefix}registry"
+  acr_name                   = "${var.env_prefix}${var.env_name}registry"
   acr_public_network_enabled = var.acr_public_network_enabled
   depends_on                 = [module.k8s_rg]
 }

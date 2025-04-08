@@ -54,6 +54,7 @@ resource "azurerm_application_gateway" "app_gw" {
     http_listener_name         = "httpListener"
     backend_address_pool_name  = "backendAddressPool"
     backend_http_settings_name = "backendHttpSettings"
+    priority                   = 100  # <-- REQUIRED
   }
 
   tags = var.tags
