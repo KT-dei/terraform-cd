@@ -202,3 +202,13 @@ variable "tfstate_key" {
   type        = string
   description = "The name of the key for the Terraform state file."
 }
+
+variable "subscription_id" {
+  type        = string
+  description = "Azure subscription ID."
+}
+
+variable "tfstate_subscription_id" {
+  type        = string
+  description = "Subscription ID for Terraform state."
+}
