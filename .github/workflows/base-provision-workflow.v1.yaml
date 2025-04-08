@@ -1,4 +1,4 @@
-name: Demo Terraform Workflow
+name: Demo Terraform Workflow V1
 
 on:
   workflow_dispatch:
