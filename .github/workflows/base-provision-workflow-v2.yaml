@@ -76,7 +76,8 @@ jobs:
       workflow: ${{ needs.setup-base-infrastructure.outputs.working-directory }}
       mode: ${{ needs.setup-base-infrastructure.outputs.mode }}
       vars-file: ${{ needs.setup-base-infrastructure.outputs.vars-file }}
-      tf-state-name: ${{ needs.setup-base-infrastructure.outputs.tf-state-name }}
+      #tf-state-name: ${{ needs.setup-base-infrastructure.outputs.tf-state-name }}
+      tf-state-name: "terraform.tfstate"
       environment: ${{ needs.setup-base-infrastructure.outputs.environment }}
       publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
     secrets: inherit
