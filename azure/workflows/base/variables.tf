@@ -1,12 +1,12 @@
 variable "azure_subscription_id_global" {}
 
 variable "location" {
-    default     = "centralus"
-    description = "Location of the resource group."
+  default     = "centralus"
+  description = "Location of the resource group."
 }
 
 variable "env_prefix" {
-    default = "labenv"
+  default = "labenv"
 }
 
 variable "acr_sku" {
@@ -30,15 +30,15 @@ variable "georeplications_regional_endpoint_enabled" {
   type    = bool
 }
 variable "acr_name" {
-    default = "acr-test"
+  default = "acr-test"
 }
 variable "acr_public_network_enabled" {
-    default = true
+  default = true
 }
 
 variable "env_name" {
-default = "sboxt"
-  type = string
+  default = "sboxt"
+  type    = string
 }
 
 variable "cluster_index" {
@@ -46,12 +46,12 @@ variable "cluster_index" {
 }
 
 variable "acrprefix" {
-    default = "labsacr"
+  default     = "labsacr"
   description = "The prefix used for all resources in this example"
 }
 
 variable "location_pair" {
-    default = ""
+  default = ""
 }
 
 variable "tags" {
@@ -182,23 +182,33 @@ variable "base_infra_namespace_without_istio_inject" {
 }
 
 variable "tfstate_rg" {
-  default = "terraform-rg"
-  type    = string
+  default     = "terraform-rg"
+  type        = string
   description = "The name of the resource group where the Terraform state file is stored."
-  
+
 }
 variable "tfstate_storage_account_name" {
-  default = "tfstate26035"
-  type    = string
+  default     = "tfstate26035"
+  type        = string
   description = "The name of the storage account where the Terraform state file is stored."
 }
 variable "tfstate_container_name" {
-  default = "tfstate"
-  type    = string
+  default     = "tfstate"
+  type        = string
   description = "The name of the container where the Terraform state file is stored."
 }
 variable "tfstate_key" {
-  default = "terraform.tfstate"
-  type    = string
+  default     = "terraform.tfstate"
+  type        = string
   description = "The name of the key for the Terraform state file."
+}
+
+variable "subscription_id" {
+  type        = string
+  description = "Azure subscription ID."
+}
+
+variable "tfstate_subscription_id" {
+  type        = string
+  description = "Subscription ID for Terraform state."
 }

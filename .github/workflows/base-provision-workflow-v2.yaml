@@ -27,6 +27,7 @@ permissions:
   contents: write
   pull-requests: write
   packages: read
+  id-token: write
 
 env:
   TERRAFORM_AUTO_TFVARS_FILENAME: "base-infrastructure.auto.tfvars"
@@ -76,8 +77,10 @@ jobs:
       mode: ${{ needs.setup-base-infrastructure.outputs.mode }}
       vars-file: ${{ needs.setup-base-infrastructure.outputs.vars-file }}
       tf-state-name: ${{ needs.setup-base-infrastructure.outputs.tf-state-name }}
+      #tf-state-name: "terraform.tfstate"
       environment: ${{ needs.setup-base-infrastructure.outputs.environment }}
       publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
+    secrets: inherit
 
 
 
