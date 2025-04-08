@@ -6,7 +6,7 @@ variable "location" {
 }
 
 variable "env_prefix" {
-  default = "labenv"
+  default = "labenv2"
 }
 
 variable "acr_sku" {
@@ -37,7 +37,7 @@ variable "acr_public_network_enabled" {
 }
 
 variable "env_name" {
-  default = "sboxt"
+  default = "sboxt2"
   type    = string
 }
 
