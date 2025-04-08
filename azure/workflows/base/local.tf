@@ -1,6 +1,7 @@
 locals {
   rg_k8s               = "rg-ede-${var.env_prefix}"
   aks_name             = "${var.env_prefix}-${var.env_name}-aks-cluster-${var.cluster_index}"
+  app_gw_name          = "${var.env_prefix}-${var.env_name}-app-gateway"
   mysql_server_name    = "${var.env_prefix}-${var.env_name}-mysql"
   acr_name             = "${var.env_prefix}-${var.env_name}-acr"
   redis_name           = "${var.env_prefix}-${var.env_name}-redis"
