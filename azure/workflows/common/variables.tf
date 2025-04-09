@@ -212,8 +212,3 @@ variable "subscription_id" {
   type        = string
   description = "Azure subscription ID."
 }
-
-variable "tfstate_subscription_id" {
-  type        = string
-  description = "Subscription ID for Terraform state."
-}
