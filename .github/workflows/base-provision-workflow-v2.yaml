@@ -68,7 +68,7 @@ jobs:
           echo "flux_git_url = ***${{ vars.FLUX_GIT_URL }}***" >> "${GITHUB_OUTPUT}"
           echo "flux_git_https_user = ***${{ vars.FLUX_GIT_USERNAME }}***" >> "${GITHUB_OUTPUT}"
           echo "flux_git_reference_type = ***${{ vars.FLUX_GIT_REF_TYPE }}***" >> "${GITHUB_OUTPUT}"
-          echo "flux_kustomizations = ***${{ vars.FLUX_KUSTOMIZATIONS }}***" >> "${GITHUB_OUTPUT}"
+          #echo "flux_kustomizations = ***${{ vars.FLUX_KUSTOMIZATIONS }}***" >> "${GITHUB_OUTPUT}"
           echo "flux_git_branch = ***${{ vars.FLUX_GIT_BRANCH }}***" >> "${GITHUB_OUTPUT}"
           echo "node_pool_min_count = ***${{ vars.NODE_POOL_MIN_COUNT }}***" >> "${GITHUB_OUTPUT}"
           echo "node_pool_max_count = ***${{ vars.NODE_POOL_MAX_COUNT }}***" >> "${GITHUB_OUTPUT}"
