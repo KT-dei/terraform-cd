@@ -78,6 +78,7 @@ jobs:
           location = "${{ vars.AZURE_LOCATION }}"
           env_name = "${{ vars.ENV_NAME }}"
           env_prefix = "${{ vars.ENV_PREFIX }}"
+          user_name = "${{ vars.USER_NAME }}"
           subscription_id = "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
           azure_subscription_id_global = "${{ secrets.AZURE_SUBSCRIPTION_ID_GLOBAL }}"
           EOF

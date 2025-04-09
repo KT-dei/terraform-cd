@@ -36,6 +36,8 @@ module "app_gateway" {
   subnet_id           = azurerm_subnet.app_gateway_subnet.id
   public_ip_id        = azurerm_public_ip.app_gw_pip.id
 
+  depends_on = [ module.k8s, azurerm_subnet.app_gateway_subnet ]
+
   # backend pool (PENDING)
 
   backend_fqdns = [
@@ -44,7 +46,7 @@ module "app_gateway" {
   ]
 
   tags = {
-    environment = "sbox"
+    environment = var.env_name
     project     = "manticore-infra"
   }
 }
