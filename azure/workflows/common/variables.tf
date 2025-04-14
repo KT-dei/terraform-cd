@@ -6,7 +6,7 @@ variable "location" {
 }
 
 variable "env_prefix" {
-  default = "labenv2"
+  default = "ftds"
 }
 
 variable "acr_sku" {
@@ -37,12 +37,12 @@ variable "acr_public_network_enabled" {
 }
 
 variable "env_name" {
-  default = "sboxt2"
+  default = "uat-dei"
   type    = string
 }
 
 variable "user_name" {
-  default = "ivan"
+  default = "dei"
   type    = string
 }
 
@@ -61,13 +61,13 @@ variable "location_pair" {
 
 variable "tags" {
   default = {
-    "ApplicationName"    = "labs Cloud Services"
+    "ApplicationName"    = "labs Cloud Services Manticore"
     "ApplicationTag"     = "lan=bs Cloud"
     "Capability"         = "Network and Cloud Services"
     "DataClassification" = "Confidential"
-    "Environment"        = "Sandbox"
-    "Lifespan"           = "Months"
-    "OwnerEmail"         = "ivanhidalgo22@gmail.com"
+    "Environment"        = "uat-dei"
+    "Lifespan"           = "Temoraly"
+    "OwnerEmail"         = "deisycarolina.ossa@rockwellautomation.com"
     "ProjectInitiative"  = "Default Project"
     "ServiceClass"       = "User Managed"
   }
@@ -208,7 +208,3 @@ variable "tfstate_key" {
   description = "The name of the key for the Terraform state file."
 }
 
-variable "subscription_id" {
-  type        = string
-  description = "Azure subscription ID."
-}

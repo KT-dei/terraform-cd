@@ -1,21 +1,14 @@
-variable "rg_name" {
-  type        = string
-  description = "Name of the resource group to deploy resources into"
-  default     = "rg-ede-labenv"
-}
-
-
 variable "name" {
   type        = string
   description = "Name of the Service Bus namespace"
-  default = "asb"
+  default     = "asb"
 }
 
 
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group to deploy resources into"
-  default = "rg-ede-labenv"
+  default     = "rg-ede-labenv"
 }
 
 variable "sku" {
@@ -51,9 +44,9 @@ variable "subscription_rules" {
     topic        = string
     subscription = string
     name         = string
-    rule_type    = string        # Typically "SqlFilter"
-    filter_type  = string        # Typically "SqlFilter"
-    sql_filter   = string        # Example: "priority = 'high'"
+    rule_type    = string # Typically "SqlFilter"
+    filter_type  = string # Typically "SqlFilter"
+    sql_filter   = string # Example: "priority = 'high'"
   }))
   default = []
 }

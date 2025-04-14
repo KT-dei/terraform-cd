@@ -1,18 +1,13 @@
-data "azurerm_resource_group" "rg" {
-  name = local.rg_name
-}
-
-
 module "servicebus" {
-  source              = "../../modules/servicebus"
-  name                = local.asb_name
-  location            = var.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  rg_name             = data.azurerm_resource_group.rg.name
-  sku                 = "Standard"
+  source = "../../modules/servicebus"
+  //name --> es el mismo valor de la varibale de resource group
+  name     = local.asb_name
+  location = var.location
+  rg_name  = module.resource-group.name
+  sku      = var.sku
 
-  queues              = var.queues
-  topics              = var.topics
+  queues = var.queues
+  topics = var.topics
 
   subscriptions = [
     {

@@ -2,3 +2,8 @@
 # name                = local.aks_name
 #resource_group_name = local.rg_k8s
 #}
+
+locals {
+  rg_general = "${var.env_prefix}-${var.env_name}-rg-general-dei"
+  asb_name  = "${var.env_prefix}-${var.env_name}-asb-dei"
+}
