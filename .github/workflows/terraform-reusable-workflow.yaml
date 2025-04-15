@@ -30,6 +30,12 @@ env:
   TERRAFORM_VERSION: "1.7.3"
   TERRAFORM_WRAPPER: false
 
+permissions: 
+  contents: write
+  pull-requests: write
+  packages: read
+  id-token: write
+
 jobs:
   Terraform-Plan:
     runs-on: ubuntu-latest
