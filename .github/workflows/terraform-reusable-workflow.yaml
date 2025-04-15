@@ -23,18 +23,11 @@ on:
         description: 'Publish plan to PR'
         default: false
 
-
 env:
   TERRAFORM_LOCK_TIMEOUT: ${{ vars.TERRAFORM_LOCK_TIMEOUT || '20m' }}
   working-directory: "${{ inputs.workflow }}"
   TERRAFORM_VERSION: "1.7.3"
   TERRAFORM_WRAPPER: false
-
-permissions: 
-  contents: write
-  pull-requests: write
-  packages: read
-  id-token: write
 
 jobs:
   Terraform-Plan:
@@ -76,26 +69,25 @@ jobs:
           #Open id connect, se utiliza para conectarse (Service principal)
           ARM_USE_OIDC: true
 
+      - name: Setup Terraform variables
+        working-directory: ${{ env.working-directory }}
+        id: vars
+        run: |-
+          cat > global.auto.tfvars << EOF
+          location = "${{ vars.AZURE_LOCATION }}"
+          env_name = "${{ vars.ENV_NAME }}"
+          env_prefix = "${{ vars.ENV_PREFIX }}"
+          user_name = "${{ vars.USER_NAME }}"
+          subscription_id = "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          azure_subscription_id_global = "${{ secrets.AZURE_SUBSCRIPTION_ID_GLOBAL }}"
+          EOF
 
-#       - name: Setup Terraform variables
-#         working-directory: ${{ env.working-directory }}
-#         id: vars
-#         run: |-
-#           cat > global.auto.tfvars << EOF
-#           location = "${{ vars.AZURE_LOCATION }}"
-#           env_name = "${{ vars.ENV_NAME }}"
-#           env_prefix = "${{ vars.ENV_PREFIX }}"
-#           user_name = "${{ vars.USER_NAME }}"
-#           subscription_id = "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-#           azure_subscription_id_global = "${{ secrets.AZURE_SUBSCRIPTION_ID_GLOBAL }}"
-#           EOF
+          echo "${{ inputs.vars-file }}" > vars-file.auto.tfvars
+          # Replaces *** with " in the vars-file.auto.tfvars
 
-#           echo "${{ inputs.vars-file }}" > vars-file.auto.tfvars
-#           # Replaces *** with " in the vars-file.auto.tfvars
-
-#           sed -i 's/\*\*\*/"/g' vars-file.auto.tfvars
-#           terraform fmt vars-file.auto.tfvars
-#           terraform fmt global.auto.tfvars
+          sed -i 's/\*\*\*/"/g' vars-file.auto.tfvars
+          terraform fmt vars-file.auto.tfvars
+          terraform fmt global.auto.tfvars
 
 #       - name: Verify vars
 #         run: cat *.auto.tfvars
