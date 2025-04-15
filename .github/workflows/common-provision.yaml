@@ -32,7 +32,7 @@ env:
   TERRAFORM_AUTO_TFVARS_FILENAME: "common-infrastructure.auto.tfvars"
   WORKING_DIRECTORY: "./azure/workflows/common"
 jobs:
-  setup-commmon-infrastructure:
+  setup-common-infrastructure:
     environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'ftdslabs' }}
     runs-on: ubuntu-latest
     name: "Common Infrastructure Terraform Variables"
@@ -64,15 +64,15 @@ jobs:
         - name: "test"
           run: echo "test"
   common-infrastructure:
-    needs: [setup-commmon-infrastructure]
+    needs: [setup-common-infrastructure]
     uses: ./.github/workflows/terraform-reusable-workflow.yaml
     name: "Common Infrastructure Terraform"
-  #   with: 
-  #     workflow: ${{ needs.setup-common-infrastructure.outputs.working-directory }}
-  #     mode: ${{ needs.setup-common-infrastructure.outputs.mode }}
-  #     vars-file: ${{ needs.setup-common-infrastructure.outputs.vars-file }}
-  #     tf-state-name: ${{ needs.setup-common-infrastructure.outputs.tf-state-name }}
-  #     #tf-state-name: "terraform.tfstate"
-  #     environment: ${{ needs.setup-common-infrastructure.outputs.environment }}
-  #     publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
-  #   secrets: inherit
+    with: 
+      workflow: ${{ needs.setup-common-infrastructure.outputs.working-directory }}
+      mode: ${{ needs.setup-common-infrastructure.outputs.mode }}
+      vars-file: ${{ needs.setup-common-infrastructure.outputs.vars-file }}
+      tf-state-name: ${{ needs.setup-common-infrastructure.outputs.tf-state-name }}
+      #tf-state-name: "terraform.tfstate"
+      environment: ${{ needs.setup-common-infrastructure.outputs.environment }}
+      publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
+    secrets: inherit
