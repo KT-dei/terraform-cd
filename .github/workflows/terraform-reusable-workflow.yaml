@@ -43,11 +43,11 @@ jobs:
       - run: echo "🔎 Branch is ${{ github.ref }} and your repository is ${{ github.repository }}."  
       - run: echo "${{ toJson(vars) }}"
 
-#       - name: Install Terraform
-#         uses: hashicorp/setup-terraform@v3
-#         with:
-#           terraform_version: ${{ env.TERRAFORM_VERSION }}
-#           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
 #       - run: terraform --version
 
