@@ -295,11 +295,12 @@ jobs:
           path: ${{ env.working-directory }}
 
       - name: Terraform Apply
-        run: terraform apply -no-color tfplan
+        #run: terraform apply -no-color tfplan
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           ARM_USE_OIDC: true
-        #run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+        run: terraform -chdir=azure/workflows/base ${{ github.event.inputs.terraform_mode }} -auto-approve -var="azure_subscription_id_global=${{secrets.AZURE_SUBSCRIPTION_ID}}"
         working-directory: ${{ env.working-directory }}
+        
