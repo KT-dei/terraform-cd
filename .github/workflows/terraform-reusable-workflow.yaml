@@ -89,32 +89,32 @@ jobs:
           terraform fmt vars-file.auto.tfvars
           terraform fmt global.auto.tfvars
 
-#       - name: Verify vars
-#         run: cat *.auto.tfvars
-#         working-directory: ${{ env.working-directory }}
+      - name: Verify vars
+        run: cat *.auto.tfvars
+        working-directory: ${{ env.working-directory }}
 
-#       - name: Terraform fmt
-#         id: fmt
-#         run: terraform fmt -check -diff
-#         working-directory: ${{ env.working-directory }}
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check -diff
+        working-directory: ${{ env.working-directory }}
 
-#       - name: Terraform Init
-#         run: | 
-#           terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ inputs.tf-state-name }}" -backend-config="use_azuread_auth=true" -no-color
-#         env:
-#           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-#           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-#           ARM_USE_OIDC: true
-#         working-directory: ${{ env.working-directory }}
+      - name: Terraform Init
+        run: | 
+          terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ inputs.tf-state-name }}" -backend-config="use_azuread_auth=true" -no-color
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
+        working-directory: ${{ env.working-directory }}
 
-#       - name: Terraform Validate
-#         id: validate
-#         if: ${{ inputs.mode == 'validate' || inputs.mode == 'plan' || inputs.mode == 'plan-destroy' || inputs.mode == 'apply' || inputs.mode == 'destroy' }}
-#         run: |
-#           echo "tf_output=$(terraform validate -no-color)" >> $GITHUB_OUTPUT
-#         shell: bash
-#         working-directory: ${{ env.working-directory }}
+      - name: Terraform Validate
+        id: validate
+        if: ${{ inputs.mode == 'validate' || inputs.mode == 'plan' || inputs.mode == 'plan-destroy' || inputs.mode == 'apply' || inputs.mode == 'destroy' }}
+        run: |
+          echo "tf_output=$(terraform validate -no-color)" >> $GITHUB_OUTPUT
+        shell: bash
+        working-directory: ${{ env.working-directory }}
 
 #       - name: Terraform Plan
 #         id: plan
