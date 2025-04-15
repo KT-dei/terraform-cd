@@ -54,22 +54,19 @@ jobs:
           id: vars
           run: |
             delimiter="$(openssl rand -hex 8)"
-            echo "vars_file<<${delimiter}" >> "${GITHUB_OUTPUT}"
-          
+  
             echo "tfstate_storage_account_name = ***${{ vars.TF_STATE_SA }}***" >> "${GITHUB_OUTPUT}"
             echo "tfstate_container_name = ***${{ vars.TF_STATE_CONTAINER }}***" >> "${GITHUB_OUTPUT}"
             echo "tfstate_resource_group_name = ***${{ vars.TF_STATE_RG }}***" >> "${GITHUB_OUTPUT}"
             echo "tfstate_name = ***${{ format('{0}-common-infrastructure.tfstate', vars.ENV_PREFIX) }}***" >> "${GITHUB_OUTPUT}"
             echo "tfstate_subscription_id = ***${{ vars.TF_STATE_SUB }}***" >> "${GITHUB_OUTPUT}"
 
-            echo "${delimiter}" >> "${GITHUB_OUTPUT}"
         - name: "test"
           run: echo "test"
-
-  # common-infrastructure:
-  #   needs: [setup-commmon-infrastructure]
-  #   uses: ./.github/workflows/terraform-reusable-workflow.yaml
-  #   name: "Common Infrastructure Terraform"
+  common-infrastructure:
+    needs: [setup-commmon-infrastructure]
+    uses: ./.github/workflows/terraform-reusable-workflow.yaml
+    name: "Common Infrastructure Terraform"
   #   with: 
   #     workflow: ${{ needs.setup-common-infrastructure.outputs.working-directory }}
   #     mode: ${{ needs.setup-common-infrastructure.outputs.mode }}
