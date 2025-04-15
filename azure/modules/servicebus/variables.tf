@@ -1,6 +1,5 @@
 variable "rg_name" {}
 
-
 variable "name" {
   type        = string
   description = "Name of the Service Bus namespace"
@@ -11,14 +10,8 @@ variable "location" {
   description = "Azure region where the resources will be created"
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "Name of the resource group to deploy resources into"
-}
-
 variable "sku" {
   type        = string
-  default     = "Standard"
   description = "SKU for Service Bus namespace. Allowed values: Basic, Standard, Premium"
 }
 
@@ -59,6 +52,5 @@ variable "subscription_rules" {
 
 variable "tags" {
   type        = map(string)
-  default     = {}
   description = "Tags to apply to all resources"
 }

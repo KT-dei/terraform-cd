@@ -34,9 +34,15 @@ The `terraform-cd` project provides a framework for managing infrastructure as c
     ```
 
 - Export required environment variables:
+**Linux/Unix**
     ```bash
     export TF_VAR_subscription_id=$(az account show --query id -o tsv)
     export TF_VAR_tenant_id=$(az account show --query tenantId -o tsv)
+    ```
+**Windows**
+    ```bash
+    $env:TF_VAR_subscription_id = $(az account show --query id -o tsv)
+    $env:TF_VAR_tenant_id = $(az account show --query tenantId -o tsv)
     ```
 
 ## Setup
@@ -57,6 +63,11 @@ The `terraform-cd` project provides a framework for managing infrastructure as c
 3. Configure backend for remote state:
     Update the `backend.tf` with your remote state details.
 
+- **resource_group_name**
+- **storage_account_name**
+- **key**
+- **subscription_id**
+
 4. Initialize Terraform:
     ```bash
     terraform -chdir=azure/workflows/base init
@@ -71,17 +82,17 @@ The `terraform-cd` project provides a framework for managing infrastructure as c
 
 1. Plan the infrastructure changes:
     ```bash
-    terraform -chdir=azure/workflows/base plan -var="azure_subscription_id_global=$TF_VAR_subscription_id" 
+    terraform -chdir=azure/workflows/base plan -var="azure_subscription_id_global=$env:TF_VAR_subscription_id" 
     ```
 
 2. Apply the changes:
     ```bash
-    terraform -chdir=azure/workflows/base apply -auto-approve -var="azure_subscription_id_global=$TF_VAR_subscription_id"     
+    terraform -chdir=azure/workflows/base apply -auto-approve -var="azure_subscription_id_global=$env:TF_VAR_subscription_id"     
     ```
 
 3. Destroy the infrastructure (if needed):
     ```bash
-    terraform -chdir=azure/workflows/base destroy -auto-approve -var="azure_subscription_id_global=$TF_VAR_subscription_id"       
+    terraform -chdir=azure/workflows/base destroy -auto-approve -var="azure_subscription_id_global=$env:TF_VAR_subscription_id"       
     ```
 
 ## Contributing
