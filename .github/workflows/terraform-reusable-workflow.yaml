@@ -235,7 +235,6 @@ jobs:
       - name: Error on Failure
         if: steps.plan.outputs.exitcode == 1
         run: |
-          echo "valor ${steps.plan.outputs.exitcode}" 
           console.log("Bot comment found for Terraform ${{steps.plan.outputs.exitcode}}");
           exit 1
   
