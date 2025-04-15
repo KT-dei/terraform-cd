@@ -163,53 +163,53 @@ jobs:
           path: |
             ${{ env.working-directory }}/tfplan
             ${{ env.working-directory }}/terraform-plan.txt
-#       - name: Publish Terraform Plan to Task Summary
-#         run: |
-#           echo '#### Terraform Plan Output' >> $GITHUB_STEP_SUMMARY
-#           echo '[Click Here](${{ steps.archive-plan.outputs.artifact-url }})' >> $GITHUB_STEP_SUMMARY
-#           echo '' >> $GITHUB_STEP_SUMMARY
-#       - name: Install fs module
-#         if: ${{ inputs.mode == 'plan' && inputs.publish-plan-on-pr }}    
-#         run: npm install fs
-#       - name: Comment on PR
-#         if: ${{ inputs.mode == 'plan' && inputs.publish-plan-on-pr }}        
-#         uses: actions/github-script@v7
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }}
-#           script: |
-#             const { readFileSync } = require('fs')
-#             const data = readFileSync('${{ env.working-directory }}/terraform-plan.txt', 'utf8')
-#             const plan = data.length > 65000 ? '[Click Here](${{ steps.archive-plan.outputs.artifact-url }})' : `<details><summary>Plan Output</summary>\n\n\`\`\`\n${data}\`\`\`\n\n</details>`
+      - name: Publish Terraform Plan to Task Summary
+        run: |
+          echo '#### Terraform Plan Output' >> $GITHUB_STEP_SUMMARY
+          echo '[Click Here](${{ steps.archive-plan.outputs.artifact-url }})' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+      - name: Install fs module
+        if: ${{ inputs.mode == 'plan' && inputs.publish-plan-on-pr }}    
+        run: npm install fs
+      - name: Comment on PR
+        if: ${{ inputs.mode == 'plan' && inputs.publish-plan-on-pr }}        
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { readFileSync } = require('fs')
+            const data = readFileSync('${{ env.working-directory }}/terraform-plan.txt', 'utf8')
+            const plan = data.length > 65000 ? '[Click Here](${{ steps.archive-plan.outputs.artifact-url }})' : `<details><summary>Plan Output</summary>\n\n\`\`\`\n${data}\`\`\`\n\n</details>`
 
-#             // 1. Retrieve existing bot comments for the PR
-#             const { data: comments } = await github.rest.issues.listComments({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               issue_number: context.issue.number,
-#             });
+            // 1. Retrieve existing bot comments for the PR
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
 
-#             const botComment = comments.find(comment => {
-#               return comment.user.type === 'Bot' && comment.body.includes('Terraform ${{ env.working-directory }}')
-#             })
-#             if(botComment && botComment.length > 0) {
-#               console.log("Bot comment found for Terraform ${{ env.working-directory }}");
-#               console.log(`Bot coment body: ${bootComment[0].body}`)
-#             }else {
-#               console.log("Bot comment for Terraform ${{ env.working-directory }} not found");
-#             }
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes('Terraform ${{ env.working-directory }}')
+            })
+            if(botComment && botComment.length > 0) {
+              console.log("Bot comment found for Terraform ${{ env.working-directory }}");
+              console.log(`Bot coment body: ${bootComment[0].body}`)
+            }else {
+              console.log("Bot comment for Terraform ${{ env.working-directory }} not found");
+            }
 
-#             // 2. Prepare format of the comment
-#             const output = `Terraform ${{ env.working-directory }}
-#             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-#             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-#             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-#             <details><summary>Validation Output</summary>
+            // 2. Prepare format of the comment
+            const output = `Terraform ${{ env.working-directory }}
+            #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Validation Output</summary>
 
-#             \`\`\`\n
-#             ${{ steps.validate.outputs.tf_output }}
-#             \`\`\`
+            \`\`\`\n
+            ${{ steps.validate.outputs.tf_output }}
+            \`\`\`
 
-#             </details>
+            </details>
 
 #             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
