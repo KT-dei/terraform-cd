@@ -155,14 +155,14 @@ jobs:
         shell: bash
         working-directory: ${{ env.working-directory }}
 
-#       - name: Archive Plan Output
-#         id: archive-plan
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: terraform-plan-${{ steps.plan.outputs.workflow }}
-#           path: |
-#             ${{ env.working-directory }}/tfplan
-#             ${{ env.working-directory }}/terraform-plan.txt
+      - name: Archive Plan Output
+        id: archive-plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-${{ steps.plan.outputs.workflow }}
+          path: |
+            ${{ env.working-directory }}/tfplan
+            ${{ env.working-directory }}/terraform-plan.txt
 #       - name: Publish Terraform Plan to Task Summary
 #         run: |
 #           echo '#### Terraform Plan Output' >> $GITHUB_STEP_SUMMARY
