@@ -42,39 +42,39 @@ jobs:
       tf-state-name: ${{ format('{0}-common-infrastructure.tfstate', vars.ENV_PREFIX) }}
       mode:  ${{ inputs.mode }}
       vars-file: ${{ steps.vars.outputs.vars_file }}
-    steps:
+  #   steps:
 
-      - name: "Checkout Repository"
-        uses: actions/checkout@v4
+  #     - name: "Checkout Repository"
+  #       uses: actions/checkout@v4
 
-      - name: "SetUp Common Infrastructure Terraform Variables"
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        # ID--> identificar el job posteriores "si es un step "step.vars"
-        #  -- Syntaxis para enviar un valor --- (>> "${GITHUB_OUTPUT}" )
-        # *** --> sirve para incriptar o se puede reemplazar
-        id: vars
-        run: |
-          delimiter="$(openssl rand -hex 8)"
-          echo "vars_file<<${delimiter}" >> "${GITHUB_OUTPUT}"
+  #     - name: "SetUp Common Infrastructure Terraform Variables"
+  #       working-directory: ${{ env.WORKING_DIRECTORY }}
+  #       # ID--> identificar el job posteriores "si es un step "step.vars"
+  #       #  -- Syntaxis para enviar un valor --- (>> "${GITHUB_OUTPUT}" )
+  #       # *** --> sirve para incriptar o se puede reemplazar
+  #       id: vars
+  #       run: |
+  #         delimiter="$(openssl rand -hex 8)"
+  #         echo "vars_file<<${delimiter}" >> "${GITHUB_OUTPUT}"
         
-          echo "tfstate_storage_account_name = ***${{ vars.TF_STATE_SA }}***" >> "${GITHUB_OUTPUT}"
-          echo "tfstate_container_name = ***${{ vars.TF_STATE_CONTAINER }}***" >> "${GITHUB_OUTPUT}"
-          echo "tfstate_resource_group_name = ***${{ vars.TF_STATE_RG }}***" >> "${GITHUB_OUTPUT}"
-          echo "tfstate_name = ***${{ format('{0}-common-infrastructure.tfstate', vars.ENV_PREFIX) }}***" >> "${GITHUB_OUTPUT}"
-          echo "tfstate_subscription_id = ***${{ vars.TF_STATE_SUB }}***" >> "${GITHUB_OUTPUT}"
+  #         echo "tfstate_storage_account_name = ***${{ vars.TF_STATE_SA }}***" >> "${GITHUB_OUTPUT}"
+  #         echo "tfstate_container_name = ***${{ vars.TF_STATE_CONTAINER }}***" >> "${GITHUB_OUTPUT}"
+  #         echo "tfstate_resource_group_name = ***${{ vars.TF_STATE_RG }}***" >> "${GITHUB_OUTPUT}"
+  #         echo "tfstate_name = ***${{ format('{0}-common-infrastructure.tfstate', vars.ENV_PREFIX) }}***" >> "${GITHUB_OUTPUT}"
+  #         echo "tfstate_subscription_id = ***${{ vars.TF_STATE_SUB }}***" >> "${GITHUB_OUTPUT}"
 
-          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+  #         echo "${delimiter}" >> "${GITHUB_OUTPUT}"
 
-  common-infrastructure:
-    needs: [setup-commmon-infrastructure]
-    uses: ./.github/workflows/terraform-reusable-workflow.yaml
-    name: "Common Infrastructure Terraform"
-    with: 
-      workflow: ${{ needs.setup-common-infrastructure.outputs.working-directory }}
-      mode: ${{ needs.setup-common-infrastructure.outputs.mode }}
-      vars-file: ${{ needs.setup-common-infrastructure.outputs.vars-file }}
-      tf-state-name: ${{ needs.setup-common-infrastructure.outputs.tf-state-name }}
-      #tf-state-name: "terraform.tfstate"
-      environment: ${{ needs.setup-common-infrastructure.outputs.environment }}
-      publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
-    secrets: inherit
+  # common-infrastructure:
+  #   needs: [setup-commmon-infrastructure]
+  #   uses: ./.github/workflows/terraform-reusable-workflow.yaml
+  #   name: "Common Infrastructure Terraform"
+  #   with: 
+  #     workflow: ${{ needs.setup-common-infrastructure.outputs.working-directory }}
+  #     mode: ${{ needs.setup-common-infrastructure.outputs.mode }}
+  #     vars-file: ${{ needs.setup-common-infrastructure.outputs.vars-file }}
+  #     tf-state-name: ${{ needs.setup-common-infrastructure.outputs.tf-state-name }}
+  #     #tf-state-name: "terraform.tfstate"
+  #     environment: ${{ needs.setup-common-infrastructure.outputs.environment }}
+  #     publish-plan-on-pr: ${{ github.event_name == 'pull_request' }}
+  #   secrets: inherit
