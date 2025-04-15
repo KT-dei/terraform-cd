@@ -265,34 +265,34 @@ jobs:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
-#       - run: terraform --version
+      - run: terraform --version
       
-#       - name: Azure Login
-#         uses: azure/login@v2
-#         with:
-#           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           
-#         env:
-#           ARM_USE_OIDC: true
+        env:
+          ARM_USE_OIDC: true
     
 
-#       - name: Terraform Init
-#         run: | 
-#           terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ vars.TF_STATE_NAME }}" -backend-config="use_azuread_auth=true" -no-color
-#         env:
-#           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-#           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-#           ARM_USE_OIDC: true
-#         working-directory: ${{ env.working-directory }}
+      - name: Terraform Init
+        run: | 
+          terraform init -backend-config="subscription_id=${{ vars.TF_STATE_SUB }}" -backend-config="resource_group_name=${{ vars.TF_STATE_RG }}" -backend-config="storage_account_name=${{ vars.TF_STATE_SA }}" -backend-config="container_name=${{ vars.TF_STATE_CONTAINER }}" -backend-config="key=${{ vars.TF_STATE_NAME }}" -backend-config="use_azuread_auth=true" -no-color
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
+        working-directory: ${{ env.working-directory }}
 
-#       - name: Download terraform plan
-#         uses: actions/download-artifact@v4
-#         with:
-#           name: terraform-plan-${{ needs.Terraform-Plan.outputs.workflow }}
-#           path: ${{ env.working-directory }}
+      - name: Download terraform plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-${{ needs.Terraform-Plan.outputs.workflow }}
+          path: ${{ env.working-directory }}
 
 #       - name: Terraform Apply
 #         run: terraform apply -no-color tfplan
