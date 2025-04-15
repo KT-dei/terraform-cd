@@ -72,8 +72,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           
-#         env:
-#           ARM_USE_OIDC: true
+        env:
+          #Open id connect, se utiliza para conectarse (Service principal)
+          ARM_USE_OIDC: true
 
 
 #       - name: Setup Terraform variables
