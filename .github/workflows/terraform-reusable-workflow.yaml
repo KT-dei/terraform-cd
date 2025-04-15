@@ -211,41 +211,41 @@ jobs:
 
             </details>
 
-#             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
-#             ${plan}
+            ${plan}
 
-#             *Pusher: @${{ github.actor }}, Working Directory: \`${{ env.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Working Directory: \`${{ env.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-#             // 3. If we have a comment, update it, otherwise create a new one
-#             if (botComment && botComment.length > 0) {
-#               github.rest.issues.updateComment({
-#                 owner: context.repo.owner,
-#                 repo: context.repo.repo,
-#                 comment_id: botComment[0].id,
-#                 body: output
-#               })
-#             } else {
-#               github.rest.issues.createComment({
-#                 issue_number: context.issue.number,
-#                 owner: context.repo.owner,
-#                 repo: context.repo.repo,
-#                 body: output
-#               })
-#             }
-#       - name: Error on Failure
-#         if: steps.plan.outputs.exitcode == 1
-#         run: exit 1
+            // 3. If we have a comment, update it, otherwise create a new one
+            if (botComment && botComment.length > 0) {
+              github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment[0].id,
+                body: output
+              })
+            } else {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: output
+              })
+            }
+      - name: Error on Failure
+        if: steps.plan.outputs.exitcode == 1
+        run: exit 1
   
-#   #Approve:
-#    # environment: "${{ inputs.environment }}_approvers"
-#    # runs-on: ubuntu-latest
-#    # needs: Terraform-Plan
-#    # if: ${{ needs.Terraform-Plan.outputs.exitcode == 2 && (inputs.mode == 'apply' || inputs.mode == 'destroy') }}
-#    # steps:
-#     #  - name: Approved Message
-#      #   run: |
-#       #    echo "Terraform plan has been approved. Proceeding with apply."
+  #Approve:
+   # environment: "${{ inputs.environment }}_approvers"
+   # runs-on: ubuntu-latest
+   # needs: Terraform-Plan
+   # if: ${{ needs.Terraform-Plan.outputs.exitcode == 2 && (inputs.mode == 'apply' || inputs.mode == 'destroy') }}
+   # steps:
+    #  - name: Approved Message
+     #   run: |
+      #    echo "Terraform plan has been approved. Proceeding with apply."
 
 #   Terraform-Apply:
 #     runs-on: ubuntu-latest
