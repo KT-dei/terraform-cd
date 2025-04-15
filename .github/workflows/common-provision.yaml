@@ -42,7 +42,8 @@ jobs:
       tf-state-name: ${{ format('{0}-common-infrastructure.tfstate', vars.ENV_PREFIX) }}
       mode:  ${{ inputs.mode }}
       vars-file: ${{ steps.vars.outputs.vars_file }}
-  #   steps:
+      steps:
+        echo "test"
 
   #     - name: "Checkout Repository"
   #       uses: actions/checkout@v4
