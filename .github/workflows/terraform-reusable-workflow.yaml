@@ -130,7 +130,7 @@ jobs:
               -input=false \
               -no-color \
               -detailed-exitcode \
-              -out=tfplan > > (tee terraform-plan.txt)
+              -out=tfplan > >(tee terraform-plan.txt)
           else
             terraform plan \
               -var="azure_subscription_id_global=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
@@ -139,7 +139,7 @@ jobs:
               -destroy \
               -no-color \
               -detailed-exitcode \
-              -out=tfplan > > (tee terraform-plan.txt)
+              -out=tfplan > >(tee terraform-plan.txt)
           fi
           exit_code=$?
           echo "Terraform plan exit code: $exit_code"
