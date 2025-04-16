@@ -130,7 +130,7 @@ jobs:
               -input=false \
               -no-color \
               -detailed-exitcode \
-              -out=tfplan | tee terraform-plan.txt; export exitcode=$?
+              -out=tfplan > > (tee terraform-plan.txt)
           else
             terraform plan \
               -var="azure_subscription_id_global=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
@@ -139,11 +139,12 @@ jobs:
               -destroy \
               -no-color \
               -detailed-exitcode \
-              -out=tfplan | tee terraform-plan.txt; export exitcode=$?
+              -out=tfplan > > (tee terraform-plan.txt)
           fi
-          echo "exitcode=$exitcode"
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-          echo "workflow=$(basename ${{ env.working-directory }})" >> $GITHUB_OUTPUT
+          exit_code=$?
+          echo "Terraform plan exit code: $exit_code"
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          echo "workflow=$(commanname ${{ env.working-directory }})" >> $GITHUB_OUTPUT
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -238,15 +239,15 @@ jobs:
           console.log("Bot comment found for Terraform ${{steps.plan.outputs.exitcode}}");
           exit 1
   
-  # Approve:
-  #  environment: "${{ inputs.environment }}_approvers"
-  #  runs-on: ubuntu-latest
-  #  needs: Terraform-Plan
-  #  if: ${{ needs.Terraform-Plan.outputs.exitcode == 2 && (inputs.mode == 'apply' || inputs.mode == 'destroy') }}
-  #  steps:
-  #    - name: Approved Message
-  #      run: |
-  #        echo "Terraform plan has been approved. Proceeding with apply."
+  Approve:
+   environment: "${{ inputs.environment }}_approvers"
+   runs-on: ubuntu-latest
+   needs: Terraform-Plan
+   if: ${{ needs.Terraform-Plan.outputs.exitcode == 2 && (inputs.mode == 'apply' || inputs.mode == 'destroy') }}
+   steps:
+     - name: Approved Message
+       run: |
+         echo "Terraform plan has been approved. Proceeding with apply."
 
 
   # Terraform-Apply:
