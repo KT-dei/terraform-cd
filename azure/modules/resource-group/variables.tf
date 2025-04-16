@@ -3,6 +3,7 @@ variable "rg_name" {
 }
 variable "location" {
   type = string
+  default = "centralus"
 }
 variable "tags" {
   type        = map(string)
